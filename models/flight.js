@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const Flight = new Schema({
@@ -12,9 +12,15 @@ const Flight = new Schema({
     enum: ["DEN", "LAX", "SAN", "DFW", "AUS"],
     default: "DEN",
   },
-  flightNo: { type: Number, min: 10, max: 9999 },
+  flightNo: { type: Number, requred: true, min: 10, max: 9999 },
   departs: {
     type: Date,
+    validate: {
+      validator: function (value) {
+        return value > new Date();
+      },
+      message: "Departure date must be in the future",
+    },
     default: () => {
       const oneYearFromNow = new Date();
       oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() + 1);
