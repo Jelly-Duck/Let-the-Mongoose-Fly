@@ -1,31 +1,8 @@
 const Flight = require("../models/flight");
 
-//get one flight
-const oneFlight = async function (req, res) {
-  const oneFlight = Flight.findOne({ id: req.params.id });
-  res.render("/flights/oneFlight", {
-    title: "A Single Flight",
-    oneFlight,
-  });
-};
-
-//create controller
-
-const createFlight = async function (req, res) {
-  const newFlight = await Flight.create(req.body);
-  res.redirect("/");
-};
-
-const newFlight = async function (req, res) {
-  res.render("flights/newFlight", {
-    title: "Add Flight",
-    errorMsg: "Oh No Brotherr",
-  });
-};
-
 //get all flights
 const index = async function (req, res) {
-  const flights = Flight.find({});
+  const flights = await Flight.find({});
   console.log(flights);
   res.render("flights/index", {
     title: "Available Flights",
@@ -33,11 +10,40 @@ const index = async function (req, res) {
   });
 };
 
+//get one flight
+const show = async function (req, res) {
+  const flight = await Flight.findById(req.params.id);
+  res.render("flights/show", {
+    title: "A Single Flight",
+    flight,
+  });
+};
+
+const newFlight = async function (req, res) {
+  res.render("flights/new", {
+    title: "Add Flight",
+    errorMsg: "Oh No Brotherr",
+  });
+};
+
+//create controller
+
+const createFlight = async function (req, res) {
+  try {
+    const newFlight = await Flight.create(req.body);
+    console.log(newFlight);
+    res.redirect("/");
+  } catch (err) {
+    res.render("flights/new");
+    console.log(err);
+  }
+};
+
 //get something else??
 
 module.exports = {
-  oneFlight,
-  createFlight,
   index,
-  newFlight,
+  show,
+  new: newFlight,
+  createFlight,
 };
