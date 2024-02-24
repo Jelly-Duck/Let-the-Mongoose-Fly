@@ -3,7 +3,6 @@ const Flight = require("../models/flight");
 //get all flights
 const index = async function (req, res) {
   const flights = await Flight.find({});
-  console.log(flights);
   res.render("flights/index", {
     title: "Available Flights",
     flights,
@@ -38,6 +37,18 @@ const createFlight = async function (req, res) {
   }
 };
 
+const createDest = async function (req, res) {
+  try {
+    const flight = await Flight.findById(req.params.id);
+    flight.destinations.push(req.body);
+    await flight.save();
+    console.log("create Destination: ", flight);
+    res.redirect(`/flights/${flight._id}`);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 //get something else??
 
 module.exports = {
@@ -45,4 +56,5 @@ module.exports = {
   show,
   new: newFlight,
   createFlight,
+  createDest,
 };
