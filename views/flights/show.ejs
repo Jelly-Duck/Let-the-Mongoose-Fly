@@ -38,4 +38,14 @@
   <input type="submit" value="Add Destination" />
 </form>
 
+<form id="new-ticket" action="/tickets/<%= flight._id %>" method="POST">
+  <label>Seat:</label>
+  <input type="text" name="seat" />
+
+  <label>Price: </label>
+  <input type="number" name="price" />
+
+  <input type="submit" value="Add Seat" />
+</form>
+
 <%- include('../partials/footer') -%>

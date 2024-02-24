@@ -1,4 +1,5 @@
 const Flight = require("../models/flight");
+const Ticket = require("../models/flight");
 
 //get all flights
 const index = async function (req, res) {
@@ -12,9 +13,11 @@ const index = async function (req, res) {
 //get one flight
 const show = async function (req, res) {
   const flight = await Flight.findById(req.params.id);
+  const tickets = await Ticket.find({ flight: flight._id });
   res.render("flights/show", {
     title: "A Single Flight",
     flight,
+    tickets,
   });
 };
 
@@ -29,7 +32,6 @@ const newFlight = function (req, res) {
 const createFlight = async function (req, res) {
   try {
     const newFlight = await Flight.create(req.body);
-    console.log(newFlight);
     res.redirect("/");
   } catch (err) {
     res.render("flights/new");
@@ -42,7 +44,6 @@ const createDest = async function (req, res) {
     const flight = await Flight.findById(req.params.id);
     flight.destinations.push(req.body);
     await flight.save();
-    console.log("create Destination: ", flight);
     res.redirect(`/flights/${flight._id}`);
   } catch (err) {
     console.log(err);
