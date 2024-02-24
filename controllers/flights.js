@@ -19,10 +19,9 @@ const show = async function (req, res) {
   });
 };
 
-const newFlight = async function (req, res) {
+const newFlight = function (req, res) {
   res.render("flights/new", {
     title: "Add Flight",
-    errorMsg: "Oh No Brotherr",
   });
 };
 
