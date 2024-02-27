@@ -48,4 +48,12 @@
   <input type="submit" value="Add Seat" />
 </form>
 
-<%- include('../partials/footer') -%>
+<h2>Tickets</h2>
+<% tickets.forEach(function(ticket) { %>
+
+<tr>
+  <td>Seat: <%= ticket.seat %></td>
+  <td>Price: <%= ticket.price %></td>
+</tr>
+
+<% }) %> <%- include('../partials/footer') -%>
